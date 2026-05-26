@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIエージェントによる自律型ワークフローの構築手法 | AIFlows</title>
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="AIエージェントを活用した、次世代の動的・自律型業務自動化ワークフローの設計思想、具体的な実装ステップ、および従来型自動化ツールとの比較を網羅した詳細解説ガイド。">
+    <meta name="keywords" content="AIエージェント, 自律ワークフロー, 業務自動化, LLM連携, システム設計">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="./index.html" class="logo">
+                <div class="logo-dot"></div>
+                AIFlows
+            </a>
+            <nav class="main-nav">
+                <a href="./index.html">ホーム</a>
+                <a href="#about">AIFlowsについて</a>
+                <a href="./article-template.html" class="active">テンプレート記事</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px; padding-bottom: 80px;">
+        <article>
+            <!-- Article Header -->
+            <div class="article-header">
+                <div class="meta">
+                    <span class="card-tag">AIエージェント</span>
+                    <span>2026.05.26</span>
+                    <span>読了目安: 約 5 分</span>
+                </div>
+                <h1>AIエージェントによる自律型ワークフローの構築手法</h1>
+                <p style="font-size: 18px; color: var(--text-sub); font-weight: 300; line-height: 1.5;">
+                    静的な分岐ルールを超えて、AIが自己判断でプロセスを実行・修正する次世代のオートメーションへ。
+                </p>
+            </div>
+
+            <!-- Article Hero Image -->
+            <div class="article-hero">
+                <img src="./article_ai_agent.png" alt="AIエージェントによる自律型ワークフローの構築" loading="eager">
+            </div>
+
+            <!-- Article Body -->
+            <div class="article-body">
+                <p>
+                    これまでの業務自動化（RPAや一般的なiPaaS連携）は、人間が事前に厳密なルールや分岐を定義した「静的なフロー」でした。しかし、変化の激しいビジネス要件や、フォーマットが決まっていない非構造化データを扱う際、これらの静的ルールは容易に破綻します。
+                </p>
+                <p>
+                    そこで登場したのが、<strong>「AIエージェントによる自律型ワークフロー」</strong>です。AIに特定の目的（ゴール）と使用可能なツール（API等）を与えることで、状況に応じて最適なプロセスを自律的にパッチワークのように構成させることが可能になります。
+                </p>
+
+                <h2>1. 静的自動化と自律型ワークフローの比較</h2>
+                <p>
+                    両者の最大の違いは、「例外処理」と「意思決定」の主体がどこにあるかです。
+                </p>
+                
+                <blockquote>
+                    「従来型の自動化は、予定通りの道を走る『電車』である。一方、AIエージェントによる自動化は、目的地をセットすれば障害物を避けて自走する『自動運転車』である。」
+                </blockquote>
+
+                <p>
+                    具体的にどのような違いがあるか、以下にまとめました。
+                </p>
+                <ul>
+                    <li><strong>意思決定の柔軟性</strong>: 静的自動化ではあらかじめ定義したIF-THENルールでのみ分岐しますが、AIエージェントはLLM（大規模言語モデル）の推論能力に基づき柔軟に判断します。</li>
+                    <li><strong>非構造化データのハンドリング</strong>: 請求書のPDF、乱雑なメール文、音声ログなどを、自然言語理解をベースに直接処理しタスクへ繋げられます。</li>
+                    <li><strong>動的なエラー復帰</strong>: APIの軽微なエラーや想定外の入力に対しても、AIエージェント自身がプロンプトを通じてリトライを試みたり、適切な修正プロセスをその場で構築します。</li>
+                </ul>
+
+                <h2>2. 自律型フローを構築する3つのコア要素</h2>
+                <p>
+                    信頼性の高いAIエージェント・ワークフローを設計するには、次の3つのコンポーネントが不可欠です。
+                </p>
+
+                <h3>① プランニング（Planning）</h3>
+                <p>
+                    与えられた曖昧なゴールを、小さなサブタスクに分解する能力です。例えば「競合他社の新製品価格を調査してレポートを作成する」というタスクに対し、「1.検索クエリ生成、2.該当URLの特定、3.スクレイピング、4.要約、5.フォーマット化」といった手順を自律的に組み立てます。
+                </p>
+
+                <h3>② ツールアクセス（Tools Use）</h3>
+                <p>
+                    AIは推論だけでは外部環境に影響を与えられません。Web検索API、データベース書き込みツール、メール送信ツールなど、AIが自由に呼び出せる「道具（ファンクション）」を定義し、適切に持たせる必要があります。これには、近年のLLMに標準搭載されている <code>Function Calling</code> 技術が応用されます。
+                </p>
+
+                <h3>③ メモリ管理（Memory）</h3>
+                <p>
+                    短期的な会話のやり取りを保持するコンテキスト（コンテキストウィンドウ）と、過去のベストプラクティスやデータベースからの知識（ベクトルデータベース等）を引いてくる長期メモリの両輪が必要となります。これらが噛み合うことで、AIは一貫したタスク遂行を行えます。
+                </p>
+
+                <h2>3. 今後の展望と課題</h2>
+                <p>
+                    AIエージェント型フローが普及することで、人間は「プロセスの実行」から解放され、「ゴールの設定と例外の承認」のみを行う司令塔へと役割が変わります。
+                </p>
+                <p>
+                    しかし、自律型ゆえの「無限ループ」や「予期せぬAPIコストの急増」、そして「ハルシネーション（もっともらしい嘘）」による誤処理といった課題も残されています。そのため、現段階では <strong>Human-in-the-Loop（人間の介入・レビュー）</strong> を重要なチェックポイントとして組み込む設計が強く推奨されます。
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div>
+                <p>&copy; 2026 AIFlows Institution. All Rights Reserved.</p>
+                <p style="font-size: 12px; color: var(--text-light); margin-top: 4px;">Next-Tech-Infrastructures 傘下メディア</p>
+            </div>
+            <div class="footer-links">
+                <a href="#about">AIFlowsについて</a>
+                <a href="#privacy">プライバシーポリシー</a>
+                <a href="#terms">利用規約</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

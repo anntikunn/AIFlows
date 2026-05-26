@@ -1,0 +1,415 @@
+/*
+  AIFlows - Clean & Minimalist Blog Stylesheet
+  Theme: Tech Minimalist (High Performance, Responsive)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap');
+
+:root {
+    --bg-main: #ffffff;
+    --bg-sub: #f8fafc;
+    --text-main: #0f172a;
+    --text-sub: #475569;
+    --text-light: #94a3b8;
+    --accent: #2563eb; /* Cobalt Blue */
+    --accent-hover: #1d4ed8;
+    --border: #e2e8f0;
+    --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 8px -1px rgba(15, 23, 42, 0.02);
+    --card-shadow-hover: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.011em;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Header & Nav */
+header.site-header {
+    border-b: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 72px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent);
+}
+
+nav.main-nav {
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-sub);
+}
+
+nav.main-nav a:hover, nav.main-nav a.active {
+    color: var(--accent);
+}
+
+/* Hero Section */
+.hero {
+    padding: 80px 0 60px 0;
+    text-align: center;
+    background-color: var(--bg-sub);
+    border-bottom: 1px solid var(--border);
+}
+
+.hero-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: rgba(37, 99, 235, 0.08);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 9999px;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 16px;
+}
+
+.hero p {
+    color: var(--text-sub);
+    font-size: 18px;
+    max-w-2xl: 600px;
+    margin: 0 auto;
+    font-weight: 300;
+}
+
+/* Filter bar */
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: var(--bg-sub);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background-color: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* Grid & Cards */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+    padding: 48px 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-main);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: rgba(37, 99, 235, 0.2);
+}
+
+.card-image-wrap {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--bg-sub);
+    position: relative;
+}
+
+.card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-image-wrap img {
+    transform: scale(1.03);
+}
+
+.card-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 12px;
+}
+
+.card-tag {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    line-height: 1.35;
+}
+
+.card h3 a:hover {
+    color: var(--accent);
+}
+
+.card-desc {
+    color: var(--text-sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.read-more {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Article Template Styles */
+.article-header {
+    padding: 64px 0 40px 0;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.article-header .meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--text-sub);
+    margin-bottom: 16px;
+}
+
+.article-header h1 {
+    font-size: 32px;
+    md-font-size: 44px;
+    margin-bottom: 24px;
+}
+
+.article-hero {
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0 auto 48px auto;
+    border: 1px solid var(--border);
+}
+
+.article-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-body {
+    max-width: 680px;
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.article-body p {
+    margin-bottom: 24px;
+}
+
+.article-body h2 {
+    font-size: 26px;
+    margin: 40px 0 20px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+
+.article-body h3 {
+    font-size: 20px;
+    margin: 32px 0 16px 0;
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--accent);
+    padding: 16px 24px;
+    background-color: var(--bg-sub);
+    margin: 32px 0;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-sub);
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 24px;
+    padding-left: 20px;
+}
+
+.article-body li {
+    margin-bottom: 8px;
+}
+
+.article-body code {
+    background-color: var(--bg-sub);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+/* Footer */
+footer.site-footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 0;
+    background-color: var(--bg-sub);
+    margin-top: 64px;
+    font-size: 14px;
+    color: var(--text-sub);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    md-flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .nav-wrapper {
+        height: 64px;
+    }
+    nav.main-nav {
+        display: none; /* Can implement mobile drawer if needed, but keeping it minimalist */
+    }
+    .hero {
+        padding: 60px 0 40px 0;
+    }
+    .hero h1 {
+        font-size: 32px;
+    }
+    .hero p {
+        font-size: 16px;
+    }
+    .article-header {
+        padding: 40px 0 24px 0;
+    }
+    .article-header h1 {
+        font-size: 28px;
+    }
+    .article-body {
+        font-size: 16px;
+    }
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
