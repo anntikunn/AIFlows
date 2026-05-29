@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dify vs Make: AIエージェント構築で失敗しないアーキテクチャ選定 | AIFlows</title>
+    <meta name="description" content="AI特化のDifyと、連携特化のMake。どちらで自律型エージェントを構築すべきか？コスト、学習コスト、自由度から比較する選定マトリクス。">
+    <meta name="keywords" content="Dify, Make, Zapier, ワークフロー, AIエージェント, アーキテクチャ">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="./index.html" class="logo"><div class="logo-dot"></div>AIFlows</a>
+            <nav class="main-nav">
+                <a href="./index.html">ホーム</a>
+                <a href="#about">AIFlowsについて</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container" style="padding-top: 40px; padding-bottom: 80px;">
+        <article>
+            <div class="article-header">
+                <div class="meta">
+                    <span class="card-tag">自動化ツール</span>
+                    <span>2026.05.29</span>
+                </div>
+                <h1>Dify vs Make: AIエージェント構築で失敗しないためのアーキテクチャ選定マトリクス</h1>
+                <p style="font-size: 18px; color: var(--text-sub); font-weight: 300; line-height: 1.5;">「何でもできる」が故に陥る設計の罠。用途に応じた最適な自動化プラットフォームの選び方。</p>
+            </div>
+            <div class="article-hero"><img src="./article_automation.png" alt="DifyとMakeの比較"></div>
+            <div class="article-body">
+                <p>AIエージェントを構築する際、現在最も議論になるのが<strong>「Difyを使うべきか、Make(旧Integromat)を使うべきか」</strong>という問題です。両者とも素晴らしいツールですが、思想が根本的に異なります。</p>
+                <h2>1. 思想の違い：AIファーストか、連携ファーストか</h2>
+                <p><strong>Dify</strong>はLLMを中心に据えた「AIアプリケーション開発プラットフォーム」です。RAG（検索拡張生成）やプロンプトのバージョン管理が最初から組み込まれています。<br>対して<strong>Make</strong>は「システム間連携（iPaaS）」です。無数のSaaSのAPIを繋ぐことに特化しており、LLMはその「一つのモジュール」に過ぎません。</p>
+                <h2>2. どっちを選ぶべき？判定マトリクス</h2>
+                <ul>
+                    <li><strong>Difyを選ぶべきケース</strong>: 社内ドキュメントを読み込ませるRAGチャットボットを作りたい。LLMの出力品質をダッシュボードで細かく評価・改善したい。</li>
+                    <li><strong>Makeを選ぶべきケース</strong>: 「メール受信 → CRM登録 → Slack通知」のような、カッチリとした業務フローの途中に「要約AI」を挟みたい。大量のSaaSを複雑な条件分岐で繋ぎたい。</li>
+                </ul>
+                <p>結論として、<strong>「AIの頭脳（Dify）」と「手足（Make）」を分離し、Webhookで連携させるのが2026年現在の最強構成</strong>と言えます。無理に一方だけで全てを完結させようとすると、技術的負債を抱えることになります。</p>
+            </div>
+        </article>
+    </main>
+</body>
+</html>

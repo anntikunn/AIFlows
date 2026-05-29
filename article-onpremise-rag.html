@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社外秘データを絶対に漏らさない！Ollamaで作るオンプレミスRAG構築ガイド | AIFlows</title>
+    <meta name="description" content="パブリッククラウドのAPIに機密情報を渡せない企業向けの、ローカルLLM（Ollama）を用いた完全オンプレミスRAGの構築手順。">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="./index.html" class="logo"><div class="logo-dot"></div>AIFlows</a>
+            <nav class="main-nav"><a href="./index.html">ホーム</a></nav>
+        </div>
+    </header>
+    <main class="container" style="padding-top: 40px; padding-bottom: 80px;">
+        <article>
+            <div class="article-header">
+                <div class="meta">
+                    <span class="card-tag">LLM実装</span>
+                    <span>2026.05.29</span>
+                </div>
+                <h1>社外秘データを絶対に漏らさない！Ollamaで作るオンプレミスRAGエージェント構築ガイド</h1>
+            </div>
+            <div class="article-hero"><img src="./article_llm_slack.png" alt="オンプレミスRAGアーキテクチャ"></div>
+            <div class="article-body">
+                <p>「ChatGPTは便利だが、顧客データや未発表のソースコードをプロンプトに入れるのはNGだ」——多くの企業の法務やセキュリティ担当者がこう判断しています。</p>
+                <h2>シャドーAIリスクを根絶する「ローカル完結型」</h2>
+                <p>このジレンマに対する現在の最適解が、<strong>Ollama（推論エンジン）＋ AnythingLLM（RAGフロントエンド）</strong>などを用いた完全オンプレミス（ローカル）でのRAG環境構築です。データは社外のネットワークに一切出ません。</p>
+                <h2>構築の3ステップとインフラ要求</h2>
+                <ul>
+                    <li><strong>モデルの選定</strong>: Llama 3 8BやGemmaなどの軽量モデルをOllamaで起動します。日本語処理を重視する場合はELYZAなどの日本語派生モデルが有利です。</li>
+                    <li><strong>ベクトルデータベースのローカル運用</strong>: QdrantやChromaDBのDockerコンテナを立ち上げ、社内ドキュメントをベクトル化して格納します。</li>
+                    <li><strong>GPUコストとのトレードオフ</strong>: ローカルで実用的なレスポンス速度を出すには、最低でもVRAM 16GB〜24GBのGPU（RTX 4090等）が数枚搭載された推論サーバーが必要です。クラウドAPI費用とオンプレサーバー投資の損益分岐点を計算することが重要です。</li>
+                </ul>
+                <p>セキュリティを盾にAIの導入を見送る時代は終わりました。セキュアなAIインフラを自前で構築できるエンジニアの価値が、今まさに急騰しています。</p>
+            </div>
+        </article>
+    </main>
+</body>
+</html>

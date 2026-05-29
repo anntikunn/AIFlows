@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>単一AIは古い？CrewAIとLangGraphで作るマルチエージェントの衝撃 | AIFlows</title>
+    <meta name="description" content="1つのAIに全てを任せる時代から、専門AIが分業するマルチエージェント時代へ。CrewAIとLangGraphの基礎と実装手法。">
+    <meta name="keywords" content="マルチエージェント, CrewAI, LangGraph, AIエージェント, 自律型">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="./index.html" class="logo"><div class="logo-dot"></div>AIFlows</a>
+            <nav class="main-nav"><a href="./index.html">ホーム</a></nav>
+        </div>
+    </header>
+    <main class="container" style="padding-top: 40px; padding-bottom: 80px;">
+        <article>
+            <div class="article-header">
+                <div class="meta">
+                    <span class="card-tag">AIエージェント</span>
+                    <span>2026.05.29</span>
+                </div>
+                <h1>もう単一AIのプロンプトエンジニアリングは古い？CrewAIとLangGraphで始めるマルチエージェントの衝撃</h1>
+            </div>
+            <div class="article-hero"><img src="./article_ai_agent.png" alt="マルチエージェントの連携"></div>
+            <div class="article-body">
+                <p>巨大なプロンプトを書いて「あなたは優秀なプログラマーであり、かつ優れたレビュアーです」と一つのLLMに全人格を押し付けるアプローチは、もはや過去のものとなりました。</p>
+                <h2>分業という人間社会の模倣</h2>
+                <p>現在主流になりつつあるのが<strong>マルチエージェント・アーキテクチャ</strong>です。CrewAIやLangGraphといったフレームワークを使い、「リサーチャー」「ライター」「レビュアー」という異なる役割（Role）を持たせたAIエージェントたちを仮想空間に集め、タスクを共同で遂行させます。</p>
+                <h2>マルチエージェントの劇的なメリット</h2>
+                <ul>
+                    <li><strong>ハルシネーションの抑制</strong>: レビュアー役のAIが、生成役のAIのアウトプットを厳しくチェックするため、最終的な品質が跳ね上がります。</li>
+                    <li><strong>プロンプトの簡略化</strong>: 1つのエージェントにはシンプルな1つの役割だけを与えれば良いため、メンテナンスが容易になります。</li>
+                </ul>
+                <p>実際にCrewAIで「市場調査からプレゼン資料作成まで」を自動化するパイプラインを構築した事例では、人間の手作業の1/10以下の時間で、同等以上の品質のアウトプットを安定して出すことに成功しています。</p>
+            </div>
+        </article>
+    </main>
+</body>
+</html>

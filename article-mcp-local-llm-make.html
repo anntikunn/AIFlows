@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【脱API連携】ローカルLLMと「MCP」で作る完全セキュアな自律型社内エージェントの全貌と挫折 | AIFlows</title>
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="Make/Zapierの限界を超える？ローカルLLM（Ollama等）と新標準規格「MCP (Model Context Protocol)」を組み合わせたハイブリッド構成の設計から、実装時の泥臭い失敗談までを解説。">
+    <meta name="keywords" content="MCP, Model Context Protocol, ローカルLLM, Make, Zapier, AIエージェント, セキュリティ">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="./index.html" class="logo">
+                <div class="logo-dot"></div>
+                AIFlows
+            </a>
+            <nav class="main-nav">
+                <a href="./index.html">ホーム</a>
+                <a href="#about">AIFlowsについて</a>
+                <a href="./article-template.html">テンプレート記事</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 40px; padding-bottom: 80px;">
+        <article>
+            <!-- Article Header -->
+            <div class="article-header">
+                <div class="meta">
+                    <span class="card-tag">LLM実装</span>
+                    <span class="card-tag">AIエージェント</span>
+                    <span>2026.05.29</span>
+                    <span>読了目安: 約 8 分</span>
+                </div>
+                <h1>【脱API連携】Make/Zapierの限界を超えるか？「ローカルLLM × MCP」で作る完全セキュアな自律型エージェントの全貌と挫折</h1>
+                <p style="font-size: 18px; color: var(--text-sub); font-weight: 300; line-height: 1.5;">
+                    API費用の高騰、セキュリティの壁、そしてLLMの不安定なJSON出力。「クラウド×SaaS連携」の自動化が抱えるジレンマを、新標準規格『MCP』とローカルLLMのハイブリッド構成で打ち破ることはできるのか？
+                </p>
+            </div>
+
+            <!-- Article Hero Image -->
+            <div class="article-hero">
+                <img src="./article_mcp_llm.png" alt="ローカルLLMとMCPによるセキュアなAIエージェントのアーキテクチャ" loading="eager">
+            </div>
+
+            <!-- Article Body -->
+            <div class="article-body">
+                <p>
+                    「30分でZapierとOpenAIをつないで、社内SlackにAIエージェントを作りました！」<br>
+                    2024年頃、そんな記事がSNSに溢れました。しかし、それを実務で運用し続けたエンジニアたちは、現在深い絶望を味わっています。
+                </p>
+                <p>
+                    <strong>「API費用の青天井な高騰」</strong>と<strong>「機密情報をパブリックAPIに投げることへの法務部のNG」</strong>です。どんなに優れたワークフローを組んでも、この2つの壁にぶつかり、多くの企業内エージェントがPoC（概念実証）の段階で死んでいきました。
+                </p>
+                <p>
+                    今回は、この「クラウドAPI依存の自動化」から脱却し、いま最も熱い新標準プロトコル<strong>『MCP (Model Context Protocol)』</strong>とローカルLLMを組み合わせ、Makeを純粋なオーケストレーターとしてのみ活用する「ハイブリッド型社内エージェント」の設計とその<strong>泥臭い実装の限界</strong>について解説します。
+                </p>
+
+                <h2>1. 今話題の「MCP (Model Context Protocol)」とは何か？</h2>
+                <p>
+                    MCPは、LLMが外部のデータソースやツールと通信するためのオープンな標準規格です。「AIのためのUSB端子」と表現されることもあります。
+                </p>
+                <p>
+                    これまで、MakeやZapierでLLMを動かす場合、LLM側に「このツールの使い方はこうだよ」と長文のプロンプトで教え込んだり、SaaS側で無理やりFunction CallingのJSONをパースしたりする必要がありました。MCPは、この「LLMとツールの接続」を劇的にシンプルかつセキュアにします。
+                </p>
+                <ul>
+                    <li><strong>データのローカル完結</strong>: MCPサーバーを社内ネットワークに立てることで、機密データベースへのアクセスを外部に出さずに済む。</li>
+                    <li><strong>プラグインの共通化</strong>: 一度MCPサーバーを構築すれば、Claude DesktopでもローカルのOllamaでも、同じ手順で社内DBを検索させることができる。</li>
+                </ul>
+
+                <h2>2. 【実践】ローカルLLM + MCP + Makeのハイブリッドアーキテクチャ</h2>
+                <p>
+                    私たちが構築したのは、以下のようなアーキテクチャです。
+                </p>
+                <ol>
+                    <li><strong>推論エンジン (Brain)</strong>: 社内サーバーで稼働する <code>Ollama (Llama 3 系)</code>。クラウドAPI料金はゼロ、情報漏洩リスクもゼロ。</li>
+                    <li><strong>データアクセス (Arms & Eyes)</strong>: 社内DBや社内Wikiにアクセスする <code>MCP Server</code>。ローカルLLMから直接叩かせる。</li>
+                    <li><strong>オーケストレーション (Nerve)</strong>: <code>Make</code>。スケジューリング、SlackからのWebhook受け取り、最終的なメール送信などの「確定的なプロセス」のみを担当。</li>
+                </ol>
+
+                <p>
+                    この構成の最大のメリットは、<strong>「AIが考える部分」と「機密データを触る部分」を社内（ローカル）に閉じ込めつつ、Slackへの通知や外部SaaSとの繋ぎ込みといった「泥臭い連携」はMakeに丸投げできる</strong>点です。
+                </p>
+
+                <h2>3. 【独自視点】実際に作って分かった「地獄」と限界</h2>
+                <p>
+                    理論上は完璧でした。コストもゼロ、セキュリティも万全。しかし、実際に運用してみると、そこには<strong>クラウドAPIを使っていた頃には想像もしなかった地獄</strong>が待っていました。
+                </p>
+
+                <h3>地獄1: ローカルLLMの「推論遅延」でMakeがタイムアウトする</h3>
+                <p>
+                    Ollamaに複雑なRAG（検索拡張生成）タスクを投げた結果、レスポンスに40秒〜1分かかることが多発しました。結果として、MakeのWebhookのタイムアウト制限（通常数十秒）に引っかかり、エラーが頻発。
+                </p>
+                <blockquote>
+                    <strong>解決策（ワークアラウンド）</strong>: Makeの処理を同期型から「非同期型（キューイングとコールバック）」に変更し、アーキテクチャがさらに複雑化しました。「手軽な自動化」とは程遠い状態です。
+                </blockquote>
+
+                <h3>地獄2: JSON出力の揺らぎによる「パースエラー地獄」</h3>
+                <p>
+                    GPT-4oのようなクラウド最高峰モデルは、Makeに渡すためのJSONフォーマットを完璧に出力してくれます。しかし、ローカルで動かす7B〜14Bクラスの軽量LLMは、指示してもJSONの最後に不要なバッククォート（```）を付けたり、カンマを忘れたりします。
+                </p>
+                <p>
+                    <strong>「LLMが吐き出した微細なJSONの構文エラーで、Makeの次のモジュールが死ぬ」</strong><br>
+                    このエラーハンドリングのために、Makeの中に「正規表現でJSONっぽい部分だけを無理やり抽出し、エラーなら再リクエストする」という醜いリカバリーモジュールを組むハメになりました。
+                </p>
+
+                <h2>4. 結論：私たちはローカル回帰すべきか？</h2>
+                <p>
+                    MakeやZapierなどのSaaS連携ツールは、あくまで「システムとシステムを確定的に繋ぐ」ことに特化しています。そこに「揺らぎのあるAI（特にローカルの小型モデル）」を組み込むと、つなぎ目のエラーハンドリングに莫大な工数がかかります。
+                </p>
+                <p>
+                    結論として、現在の最適解は以下のように切り分けるべきです：
+                </p>
+                <ul>
+                    <li><strong>社内機密を含まない定型的な要約・生成</strong>： 従来通り Make + OpenAI API (または Anthropic API)</li>
+                    <li><strong>社内データを使った自律型エージェント</strong>： Make/Zapierへの過度な依存をやめ、ローカル環境（Docker等）で Dify + MCP + Ollama を組み合わせて自己完結させる。Makeはあくまで「トリガー」と「エンドポイント」に徹する。</li>
+                </ul>
+                <p>
+                    「APIを繋げば何でもできる時代」は終わりを告げ、アーキテクチャ全体のコストとリスクを設計できる真のエンジニアリング能力が、改めて問われています。
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div>
+                <p>&copy; 2026 AIFlows Institution. All Rights Reserved.</p>
+                <p style="font-size: 12px; color: var(--text-light); margin-top: 4px;">Next-Tech-Infrastructures 傘下メディア</p>
+            </div>
+            <div class="footer-links">
+                <a href="#about">AIFlowsについて</a>
+                <a href="#privacy">プライバシーポリシー</a>
+                <a href="#terms">利用規約</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

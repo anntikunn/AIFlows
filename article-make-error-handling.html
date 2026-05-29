@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIの「揺らぎ」をねじ伏せる。MakeでLLM連携を安定稼働させるエラーハンドリング術 | AIFlows</title>
+    <meta name="description" content="AIの不確実な出力を前提とした、Makeでの堅牢なエラーハンドリング設計手法。">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="./index.html" class="logo"><div class="logo-dot"></div>AIFlows</a>
+            <nav class="main-nav"><a href="./index.html">ホーム</a></nav>
+        </div>
+    </header>
+    <main class="container" style="padding-top: 40px; padding-bottom: 80px;">
+        <article>
+            <div class="article-header">
+                <div class="meta">
+                    <span class="card-tag">自動化ツール</span>
+                    <span>2026.05.29</span>
+                </div>
+                <h1>AIの「揺らぎ」をねじ伏せる。MakeでLLM APIを安定稼働させるためのエラーハンドリング術</h1>
+            </div>
+            <div class="article-hero"><img src="./article_mcp_llm.png" alt="Makeのエラーハンドリング"></div>
+            <div class="article-body">
+                <p>AIを業務フローに組み込んだエンジニアが必ず直面する絶望。それは「昨日まで動いていたのに、今日AIが謎のフォーマットで返答してきて後続のシステムが全滅した」という事態です。</p>
+                <h2>確定システムと確率システムの衝突</h2>
+                <p>MakeのようなiPaaSは、入力データが常に一定であることを前提としています。しかしLLMは「確率的なシステム」であり、同じプロンプトでも結果がブレます。このギャップを埋めるのがエラーハンドリングです。</p>
+                <h2>実践：Makeにおける堅牢な設計</h2>
+                <ol>
+                    <li><strong>JSON Validation（スキーマ検証）</strong>: OpenAIのStructured Outputsを強制し、Make側のParse JSONモジュールで厳格にチェックする。</li>
+                    <li><strong>Error Handler（Break & Retryモジュール）</strong>: パースエラーが起きた場合、直ちにシステムを止めず、LLMに対して「前の出力は不正でした。フォーマットを直して再出力して」というフィードバックループを回す。</li>
+                </ol>
+                <p>AI時代の自動化エンジニアに求められるのは、プロンプトの工夫以上に、こうした<strong>「AIが失敗することを前提とした防御的ワークフロー設計」</strong>なのです。</p>
+            </div>
+        </article>
+    </main>
+</body>
+</html>
